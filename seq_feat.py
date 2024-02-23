@@ -41,7 +41,25 @@ def GC_count(seq):
 	b = seq.count('C')
 	c = a+b
 	return(c/(len(seq)/100))
+	
+##Function to count start codons  and end codons (imperfect proxy for gene count)
+def codon_count(seq):
 
+	start_codon_a = 'ATG'
+	start_codon_b = 'GTG'
+	stop_codon_a = 'TAA'
+	stop_codon_b = 'TAG'
+	stop_codon_c = 'TGA'
+	#custom_codon = f'{args.in_codon}'
+
+	start_a = seq.count(start_codon_a)
+	start_b = seq.count(start_codon_b)
+	stop_a = seq.count(stop_codon_a)
+	stop_b = seq.count(stop_codon_b)
+	stop_c = seq.count(stop_codon_c)
+
+	return start_a, start_b, stop_a, stop_b, stop_c
+	
 ##function for indel and substitution count and location (for indel)
 def indel_sub_count(seq):
 
@@ -88,8 +106,6 @@ def sliding_window(seq, window_size, step):
 
 			pos_end = window_size + pos_start -1 #position end for output
 			gc_results.append(str(pos_start) + '-' + str(pos_end) + '_' +str(GC_count(seq[i_start:i_start+window_size])))
-			#ind_results.appned(str(pos_start) + '-' + str(pos_end) + '_' +str(indel_count(seq[i:i+window_size])))
-			#sub_results.append(str(pos_start) + '-' + str(pos_end) + '_' +str(sub_count(seq[i:i+window_size])))
 			start_a, start_b, stop_a, stop_b, stop_c = codon_count(seq[i_start:i_start+window_size])
 			codon_out = '_'.join([str(start_a), str(start_b), str(stop_a), str(stop_b), str(stop_c)])
 			codon_results.append(str(pos_start) + '-' + str(pos_end) + '_' +str(codon_out))
@@ -100,23 +116,6 @@ def sliding_window(seq, window_size, step):
 		print('Window size is greater than sequence length, please enter smaller value')
 
 	return gc_results, codon_results
-##Function to count start codons  and end codons (imperfect proxy for gene count)
-def codon_count(seq):
-
-	start_codon_a = 'ATG'
-	start_codon_b = 'GTG'
-	stop_codon_a = 'TAA'
-	stop_codon_b = 'TAG'
-	stop_codon_c = 'TGA'
-	#custom_codon = f'{args.in_codon}'
-
-	start_a = seq.count(start_codon_a)
-	start_b = seq.count(start_codon_b)
-	stop_a = seq.count(stop_codon_a)
-	stop_b = seq.count(stop_codon_b)
-	stop_c = seq.count(stop_codon_c)
-
-	return start_a, start_b, stop_a, stop_b, stop_c
 
 ##Function to return results of operations carried out
 def return_results():
