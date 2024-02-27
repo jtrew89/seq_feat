@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-##Sliding window that looks for areas with different genomic coponents, such as
-##high G C content and tells you which regions it is on and where in the contig
-##accepts alignemnts and can say list sum number of INDELS/ substitutions by window size
+##Sliding window that looks for areas with different genomic coponents
 
 ##load modules required for script
 from Bio import AlignIO
@@ -117,10 +115,11 @@ def sliding_window(seq, window_size, step):
 
 	return gc_results, codon_results
 
-##Function to return results of operations carried out
-def return_results():
+##Function to return results of operations carried out on a dataframe
+def return_results(gc_count,codon_results):
 
-	#print()
+	#results_df = pd.DataFrame()
+	
 	pass
 
 ##variables used to hold results
@@ -171,3 +170,4 @@ if args.aligned:
 	print('Substitution count')
 	print(sub_count)
 
+#return_results(gc_count, codon_results)
