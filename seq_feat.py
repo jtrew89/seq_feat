@@ -116,7 +116,7 @@ def sliding_window(seq, window_size, step):
 	return gc_results, codon_results
 
 ##Function to return results of operations carried out on a dataframe
-def return_results(gc_count,codon_results):
+def return_results(gc_count,codon_results,ind_pos):
 
 	results_df = pd.DataFrame() #create dataframe to add results to
 	
@@ -125,7 +125,17 @@ def return_results(gc_count,codon_results):
 
 	results_df['Codon_count'] = [i.split('_')[1:6] for i in codon_results] #add codon count for all 5 codonds check for in script
 
+	results_df.set_index('Loc') #set index to loc for posible aligned input
 	
+	if args.aligned: 
+		results_df['INDEL_POS'] = '' #create indel column
+
+		for loc in results_df.index: #check if indel is in range and add position to dataframe
+			for ind in ind_pos:
+				if int(loc.split('-')[0]) <= int(ind) <= int(loc.split('-')[1]):
+					results_df.loc[loc]['INDEL_POS'] = 1
+		else:
+			pass 
 		
 	return results_df
 	
@@ -178,4 +188,6 @@ if args.aligned:
 	print(sub_count)
 
 results_df = return_results(gc_count, codon_results)
-results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename) + '.tsv', sep='\t', index=False)
+
+
+results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename) + '.tsv', sep='\t')
