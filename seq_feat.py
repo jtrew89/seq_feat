@@ -118,10 +118,15 @@ def sliding_window(seq, window_size, step):
 ##Function to return results of operations carried out on a dataframe
 def return_results(gc_count,codon_results):
 
-	#results_df = pd.DataFrame()
+	results_df = pd.DataFrame() #create dataframe to add results to
 	
-	pass
+	results_df['Loc'] = [i.split('_')[0] for i in gc_count] #add genome location data
+	results_df['GC_count'] = [i.split('_')[1] for i in gc_count] #add gc_count data
 
+	results_df['Codon_count'] = [i.split('_')[1:6] for i in codon_results] #add codon count for all 5 codonds check for in script
+
+	return results_df
+	
 ##variables used to hold results
 #perhaprs serieses with contig ID, postition in contig and results value
 
@@ -158,7 +163,7 @@ else:
 		print(codon_results)
 
 if args.aligned:
-	align = AlignIO.read(args.in_filename,'fasta')
+	align = AlignIO.read(args.in_filename, args.in_form)
 	indel_count, ind_pos, sub_count = indel_sub_count(align)
 
 	print('INDEL count')
@@ -170,4 +175,5 @@ if args.aligned:
 	print('Substitution count')
 	print(sub_count)
 
-#return_results(gc_count, codon_results)
+return_results(gc_count, codon_results)
+results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename), sep='\t')
