@@ -125,6 +125,8 @@ def return_results(gc_count,codon_results):
 
 	results_df['Codon_count'] = [i.split('_')[1:6] for i in codon_results] #add codon count for all 5 codonds check for in script
 
+	
+		
 	return results_df
 	
 ##variables used to hold results
@@ -176,4 +178,4 @@ if args.aligned:
 	print(sub_count)
 
 results_df = return_results(gc_count, codon_results)
-results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename), sep='\t')
+results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename) + '.tsv', sep='\t', index=False)
