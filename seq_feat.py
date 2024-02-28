@@ -175,5 +175,5 @@ if args.aligned:
 	print('Substitution count')
 	print(sub_count)
 
-return_results(gc_count, codon_results)
+results_df = return_results(gc_count, codon_results)
 results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename), sep='\t')
