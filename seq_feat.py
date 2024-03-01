@@ -11,7 +11,6 @@ import pandas as pd
 import math
 import os
 import re
-import numpy as np
 
 ##set up arguments
 parser = argparse.ArgumentParser(description=(
