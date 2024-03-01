@@ -116,7 +116,7 @@ def sliding_window(seq, window_size, step):
 	return gc_results, codon_results
 
 ##Function to return results of operations carried out on a dataframe
-def return_results(gc_count,codon_results,ind_pos):
+def return_results(gc_count,codon_results,ind_pos=None):
 
 	results_df = pd.DataFrame() #create dataframe to add results to
 	
@@ -189,7 +189,7 @@ if args.aligned:
 	print('Substitution count')
 	print(sub_count)
 
-results_df = return_results(gc_count, codon_results,ind_pos)
+results_df = return_results(gc_count, codon_results, ind_pos)
 
 
 results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename) + '_feat.tsv', sep='\t')
