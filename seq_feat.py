@@ -137,8 +137,8 @@ def return_results(gc_count,codon_results,ind_pos=None):
 						#results_df.loc[loc]['INDEL_POS'] += 1 #if it and other are, add to the INDEL count for the window range
 					#else:
 					results_df.loc[loc]['INDEL_POS'] = 1
-	else:
-		pass 
+		else:
+			pass 
 		
 	return results_df
 	
