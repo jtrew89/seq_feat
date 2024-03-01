@@ -125,7 +125,7 @@ def return_results(gc_count,codon_results,ind_pos=None):
 
 	results_df['Codon_count'] = [i.split('_')[1:6] for i in codon_results] #add codon count for all 5 codonds check for in script
 
-	results_df.set_index('Loc') #set index to loc for posible aligned input
+	results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
 	
 	if args.aligned: 
 		results_df['INDEL_POS'] = '' #create indel column
