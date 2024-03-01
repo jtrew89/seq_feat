@@ -129,6 +129,7 @@ def return_results(gc_count,codon_results,ind_pos=None):
 	if args.aligned: 
 		results_df['INDEL_POS'] = '' #create indel column
 		inde_pos = [0] * len(results_df.index) #list the length of the datadrame filled will 0s to add actual values later, if they deviate from 0
+		
 		for inde in results_df.index: #check if indel is in range and add position to dataframe
 			loc = results_df.loc[inde]['Loc']
 			for ind in ind_pos:
@@ -137,11 +138,12 @@ def return_results(gc_count,codon_results,ind_pos=None):
 				else:
 					pass
 
+
 	else:
 		pass
-
-		results_df['INDEL_POS'] = inde_pos
-		results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
+	
+	results_df['INDEL_POS'] = inde_pos
+	results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
 	return results_df
 	
 ##variables used to hold results
