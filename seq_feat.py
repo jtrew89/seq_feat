@@ -125,22 +125,25 @@ def return_results(gc_count,codon_results,ind_pos=None):
 
 	results_df['Codon_count'] = [i.split('_')[1:6] for i in codon_results] #add codon count for all 5 codonds check for in script
 
-	results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
+	#results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
 	
 	if args.aligned: 
 		results_df['INDEL_POS'] = '' #create indel column
-
-		for loc in results_df.index: #check if indel is in range and add position to dataframe
+		inde_pos = []
+		for inde in results_df.index: #check if indel is in range and add position to dataframe
+			loc = results_df.loc[inde]['Loc']
 			for ind in ind_pos:
 				if int(loc.split('-')[0]) <= int(ind) <= int(loc.split('-')[1]): #condition for if indel position falls within the current genome location
 					#if results_df.loc[loc]['INDEL_POS'] == 1:
 						#results_df.loc[loc]['INDEL_POS'] += 1 #if it and other are, add to the INDEL count for the window range
 					#else:
-					new_results_df['INDEL_POS'] = results_df.loc[loc]['INDEL_POS'] = 1
+					#results_df.loc[loc]['INDEL_POS'] = 1
+					inde_pos[ind] = inde_pos[ind] += 1
 			else:
 				pass 
-		
-	return new_results_df
+
+		results_df['INDEL_POS'] = inde_pos
+	return results_df
 	
 ##variables used to hold results
 #perhaprs serieses with contig ID, postition in contig and results value
