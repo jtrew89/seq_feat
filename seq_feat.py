@@ -131,9 +131,10 @@ def return_results(gc_count,codon_results,ind_pos):
 		results_df['INDEL_POS'] = '' #create indel column
 
 		for loc in results_df.index: #check if indel is in range and add position to dataframe
+			loc = str(loc) #make string to use split downstream
 			for ind in ind_pos:
 				results_df.loc[loc]['INDEL_POS'] = 0 #set initial value INDEL count
-				if loc.split('-')[0] <= int(ind) <= loc.split('-')[1]: #condition for if indel position falls within the current genome location
+				if int(loc.split('-')[0]) <= int(ind) <= int(loc.split('-')[1]): #condition for if indel position falls within the current genome location
 					results_df.loc[loc]['INDEL_POS'] = results_df.loc[loc]['INDEL_POS'] + 1 #if it and other are, add to the INDEL count for the window range
 	else:
 		pass 
