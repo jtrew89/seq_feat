@@ -136,11 +136,11 @@ def return_results(gc_count,codon_results,ind_pos=None):
 					#if results_df.loc[loc]['INDEL_POS'] == 1:
 						#results_df.loc[loc]['INDEL_POS'] += 1 #if it and other are, add to the INDEL count for the window range
 					#else:
-					results_df.loc[loc]['INDEL_POS'] = 1
+					new_results_df['INDEL_POS'] = results_df.loc[loc]['INDEL_POS'] = 1
 			else:
 				pass 
 		
-	return results_df
+	return new_results_df
 	
 ##variables used to hold results
 #perhaprs serieses with contig ID, postition in contig and results value
