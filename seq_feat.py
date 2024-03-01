@@ -191,4 +191,4 @@ if args.aligned:
 results_df = return_results(gc_count, codon_results)
 
 
-results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename) + '.tsv', sep='\t')
+results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename) + '_feat.tsv', sep='\t')
