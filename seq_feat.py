@@ -125,25 +125,23 @@ def return_results(gc_count,codon_results,ind_pos=None):
 	results_df['GC_count'] = [i.split('_')[1] for i in gc_count] #add gc_count data
 
 	results_df['Codon_count'] = [i.split('_')[1:6] for i in codon_results] #add codon count for all 5 codonds check for in script
-
-	#results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
 	
 	if args.aligned: 
 		results_df['INDEL_POS'] = '' #create indel column
-		inde_pos = [0] * len(results_df.index)
+		inde_pos = [0] * len(results_df.index) #list the length of the datadrame filled will 0s to add actual values later, if they deviate from 0
 		for inde in results_df.index: #check if indel is in range and add position to dataframe
 			loc = results_df.loc[inde]['Loc']
 			for ind in ind_pos:
 				if int(loc.split('-')[0]) <= int(ind) <= int(loc.split('-')[1]): #condition for if indel position falls within the current genome location
-					#if results_df.loc[loc]['INDEL_POS'] == 1:
-						#results_df.loc[loc]['INDEL_POS'] += 1 #if it and other are, add to the INDEL count for the window range
-					#else:
-					#results_df.loc[loc]['INDEL_POS'] = 1
-					inde_pos[inde] += 1
-			else:
-				pass 
+					inde_pos[inde] += 1 #if it and others do, add to the INDEL count for the window range at the same index position in the list
+				else:
+					pass
+
+	else:
+		pass
 
 		results_df['INDEL_POS'] = inde_pos
+		results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
 	return results_df
 	
 ##variables used to hold results
