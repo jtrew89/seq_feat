@@ -11,6 +11,7 @@ import pandas as pd
 import math
 import os
 import re
+import numpy as np
 
 ##set up arguments
 parser = argparse.ArgumentParser(description=(
@@ -129,7 +130,7 @@ def return_results(gc_count,codon_results,ind_pos=None):
 	
 	if args.aligned: 
 		results_df['INDEL_POS'] = '' #create indel column
-		inde_pos = []
+		inde_pos = [0] * len(results_df.index)
 		for inde in results_df.index: #check if indel is in range and add position to dataframe
 			loc = results_df.loc[inde]['Loc']
 			for ind in ind_pos:
