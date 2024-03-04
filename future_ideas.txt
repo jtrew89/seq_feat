@@ -1,3 +1,4 @@
 -Some way of incorporating open reading frames into the codon counting
 -Some way of reading the average of all features for the whole genome/sequences in fasta file
 -Some way reading several uninterupted '-'s as a single INDEL and not loads of single INDELS. When giving location is can show a '1' for all positions it spans
+-Allow input of gff file to give gene location of subs and indels
