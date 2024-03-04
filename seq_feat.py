@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-##Sliding window that looks for areas with different genomic coponents
+##Sliding window that reports on areas with different genomic components
 
 ##load modules required for script
 from Bio import AlignIO
@@ -64,6 +64,7 @@ def indel_sub_count(seq):
 	ind = 0
 	ind_pos = []
 	sub = 0
+	sub_pos = []
 	## think about where to open alignment align = AlignIO.read(,'fasta')
 
 	for i in range(seq.get_alignment_length()):
@@ -77,11 +78,12 @@ def indel_sub_count(seq):
 
 		elif len(cur_base) > 1: #check to see if there is more than on base, if there is there has been a substitution in this spot, as the bases are not the same
 			sub = sub + 1
+			sub_pos.append(str(i+1))
 
 		else:
 			pass
 
-	return ind, ind_pos, sub
+	return ind, ind_pos, sub, sub_pos
 
 ##function for sliding window
 def sliding_window(seq, window_size, step):
@@ -116,7 +118,7 @@ def sliding_window(seq, window_size, step):
 	return gc_results, codon_results
 
 ##Function to return results of operations carried out on a dataframe
-def return_results(gc_count,codon_results,ind_pos=None):
+def return_results(gc_count,codon_results,ind_pos=None,sub_pos=None):
 
 	results_df = pd.DataFrame() #create dataframe to add results to
 	
@@ -127,7 +129,9 @@ def return_results(gc_count,codon_results,ind_pos=None):
 	
 	if args.aligned: 
 		results_df['INDEL_POS'] = '' #create indel column
+		results_df['Substitution_POS'] = '' #create indel column
 		inde_pos = [0] * len(results_df.index) #list the length of the datadrame filled will 0s to add actual values later, if they deviate from 0
+		subs_pos = [0] * len(results_df.index) #list the length of the datadrame filled will 0s to add actual values later, if they deviate from 0
 		
 		for inde in results_df.index: #check if indel is in range and add position to dataframe
 			loc = results_df.loc[inde]['Loc']
@@ -137,11 +141,17 @@ def return_results(gc_count,codon_results,ind_pos=None):
 				else:
 					pass
 
+			for sub in sub_pos:
+				if int(loc.split('-')[0]) <= int(sub) <= int(loc.split('-')[1]): #condition for if indel position falls within the current genome location
+					subs_pos[inde] += 1 #if it and others do, add to the substitution count for the window range at the same index position in the list
+				else:
+					pass
 
 	else:
 		pass
 	
 	results_df['INDEL_POS'] = inde_pos
+	results_df['Substitution_POS'] = subs_pos
 	results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
 	return results_df
 	
@@ -182,7 +192,7 @@ else:
 
 if args.aligned:
 	align = AlignIO.read(args.in_filename, args.in_form)
-	indel_count, ind_pos, sub_count = indel_sub_count(align)
+	indel_count, ind_pos, sub_count, sub_pos = indel_sub_count(align)
 
 	print('INDEL count')
 	print(indel_count)
@@ -193,7 +203,10 @@ if args.aligned:
 	print('Substitution count')
 	print(sub_count)
 
-	results_df = return_results(gc_count, codon_results, ind_pos)
+	print('Substitution position')
+	print(sub_pos)
+
+	results_df = return_results(gc_count, codon_results, ind_pos, sub_pos)
 
 else:
 	results_df = return_results(gc_count, codon_results)
