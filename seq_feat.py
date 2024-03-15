@@ -213,7 +213,7 @@ if args.aligned:
 else:
 	results_df = return_results(gc_count, codon_results)
 
-mean_gc = np.mean(results_df['GC_count']) #get means and sums for summary file
+mean_gc = np.mean(int(results_df['GC_count'])) #get means and sums for summary file
 
 with open(re.sub('.'+args.in_form,'',args.in_filename) + '_sum.txt','w') as f:
 	f.write(mean_gc)
