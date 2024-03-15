@@ -149,9 +149,10 @@ def return_results(gc_count,codon_results,ind_pos=None,sub_pos=None):
 
 	else:
 		pass
-	
-	results_df['INDEL_POS'] = inde_pos
-	results_df['Substitution_POS'] = subs_pos
+
+	if args.aligned:
+		results_df['INDEL_POS'] = inde_pos
+		results_df['Substitution_POS'] = subs_pos
 	results_df.set_index('Loc', inplace=True) #set index to loc for posible aligned input
 	return results_df
 	
