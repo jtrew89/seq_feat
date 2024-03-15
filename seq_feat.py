@@ -214,7 +214,7 @@ else:
 
 mean_gc = results_df['GC_count'].mean() #get means and sums for summary file
 
-while open(re.sub('.'+args.in_form,'',args.in_filename) + '_sum.txt','w') as f:
+with open(re.sub('.'+args.in_form,'',args.in_filename) + '_sum.txt','w') as f:
 	f.write(mean_gc)
 
 results_df.to_csv(re.sub('.'+args.in_form,'',args.in_filename) + '_feat.tsv', sep='\t')
